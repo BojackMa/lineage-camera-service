@@ -1,0 +1,11 @@
+service cameraserver /system/bin/cameraserver
+    class main
+    # user cameraserver
+    user root                               # myj修改点：用户改为root
+    group audio camera input drmrpc
+    ioprio rt 4
+    task_profiles CameraServiceCapacity MaxPerformance
+    rlimit rtprio 10 10
+    capabilities SYS_NICE NET_ADMIN NET_RAW  # myj修改点： 赋予网络管理和原生网络能力
+    onrestart class_restart cameraWatchdog
+    interface aidl android.frameworks.cameraservice.service.ICameraService/default
